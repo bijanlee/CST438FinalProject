@@ -5,12 +5,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class HomeController
-{
+public class HomeController {
 
    @GetMapping("/home")
    public String Home(Model model) {
       return "index";
+   }
+   
+   @GetMapping("/profile")
+   public String Profile(Model model) {
+      return "profile";
+   }
+   
+   @GetMapping("/cart")
+   public String Cart(Model model) {
+      return "cart";
    }
    
    @GetMapping("/SearchFlights")
