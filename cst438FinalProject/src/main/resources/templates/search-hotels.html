@@ -27,18 +27,18 @@
      <div class="mt-5">
       <h2 class="text-center">Hotel Results</h2>
      </div>
-     <div class="container py-4" style="max-width: 630px;">
+     <div th:each="hotel : ${hotels}" class="container py-4" style="max-width: 630px;">
        <div class="h-100 p-5 bg-light border rounded-3 mt-2">
          <div class="container-fluid py-5">
-           <h2>Hotel Name</h2>
-           <h3>City</h3>
-           <h1>$99.99</h1>
+           <h2 th:text="${hotel.name}"></h2>
+           <h3 th:text="${hotel.location}"></h3>
+           <h1 th:text="${hotel.price}"></h1>
            <button class="btn btn-primary btn-lg mt-2" type="button">Book</button>
          </div>
        </div>
      </div>
      
-     <div class="container py-4" style="max-width: 630px;">
+<!--      <div class="container py-4" style="max-width: 630px;">
        <div class="h-100 p-5 bg-light border rounded-3 mt-2">
          <div class="container-fluid py-5">
            <h2>Hotel Name</h2>
@@ -47,9 +47,9 @@
            <button class="btn btn-primary btn-lg mt-2" type="button">Book</button>
          </div>
        </div>
-     </div>
+     </div> -->
      
-     <div class="container py-4" style="max-width: 630px;">
+<!--      <div class="container py-4" style="max-width: 630px;">
        <div class="h-100 p-5 bg-light border rounded-3 mt-2">
          <div class="container-fluid py-5">
            <h2>Hotel Name</h2>
@@ -58,9 +58,9 @@
            <button class="btn btn-primary btn-lg mt-2" type="button">Book</button>
          </div>
        </div>
-     </div>
+     </div> -->
      
-     <div class="container py-4" style="max-width: 630px;">
+<!--      <div class="container py-4" style="max-width: 630px;">
        <div class="h-100 p-5 bg-light border rounded-3 mt-2">
          <div class="container-fluid py-5">
            <h2>Hotel Name</h2>
@@ -69,7 +69,7 @@
            <button class="btn btn-primary btn-lg mt-2" type="button">Book</button>
          </div>
        </div>
-     </div>
+     </div> -->
 </main>
 
 
