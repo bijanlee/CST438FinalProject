@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.min.css} "/>
+<link rel="stylesheet" href="/site.css" />
+</head>
+<body>
+
+<header class="site-header sticky-top py-1">
+  <nav class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-2" href="#" aria-label="Product">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img" viewBox="0 0 24 24"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/></svg>
+    </a>
+   <!--     <a class="py-2 d-none d-md-inline-block" href="#">Tour</a>
+    <a class="py-2 d-none d-md-inline-block" href="#">Product</a> -->
+    <a class="py-2 d-none d-md-inline-block" href="#">Cart</a>
+    <a class="py-2 d-none d-md-inline-block" href="#">Profile</a>
+    <a class="py-2 d-none d-md-inline-block" href="#">Reservations</a>
+    <a class="py-2 d-none d-md-inline-block" href="/Login">Log In</a>
+    <a class="py-2 d-none d-md-inline-block" href="/Register">Register</a>
+  </nav>
+</header>
+
+<main>
+     <div class="mt-5">
+      <h2 class="text-center">Flight Results</h2>
+     </div>
+     
+      <div th:each="flight : ${flights}" class="container py-4" style="max-width: 630px;">
+       <div class="h-100 p-5 bg-light border rounded-3 mt-2">
+         <div class="container-fluid py-5">
+           <h2 th:text="${flight.time}"></h2>
+           <h3><span th:text="${flight.sourceLocation}"></span><span> - </span><span th:text="${flight.sourceLocation}"></span></h3>
+           <h1 th:text="${flight.price}"></h1>
+           <button class="btn btn-primary btn-lg mt-2" type="button">Book</button>
+         </div>
+       </div>
+     </div>
+     
+     <!-- <div class="container py-4" style="max-width: 630px;">
+       <div class="h-100 p-5 bg-light border rounded-3 mt-2">
+         <div class="container-fluid py-5">
+           <h2>12:30 PM</h2>
+           <h3>Los Angeles - Las Vegas</h3>
+           <h1>$99.99</h1>
+           <button class="btn btn-primary btn-lg mt-2" type="button">Book</button>
+         </div>
+       </div>
+     </div>
+     
+     <div class="container py-4" style="max-width: 630px;">
+       <div class="h-100 p-5 bg-light border rounded-3 mt-2">
+         <div class="container-fluid py-5">
+           <h2>12:30 PM</h2>
+           <h3>Los Angeles - Las Vegas</h3>
+           <h1>$99.99</h1>
+           <button class="btn btn-primary btn-lg mt-2" type="button">Book</button>
+         </div>
+       </div>
+     </div>
+     
+     <div class="container py-4" style="max-width: 630px;">
+       <div class="h-100 p-5 bg-light border rounded-3 mt-2">
+         <div class="container-fluid py-5">
+           <h2>12:30 PM</h2>
+           <h3>Los Angeles - Las Vegas</h3>
+           <h1>$99.99</h1>
+           <button class="btn btn-primary btn-lg mt-2" type="button">Book</button>
+         </div>
+       </div>
+     </div> -->
+
+
+</main>
+
+
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.0.1/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
