@@ -5,14 +5,12 @@ import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-@Table(name="user")
+@Table(name="users")
 public class User {
     @Id
-    private int ID;
+    private int user_id;
     private String fName;
     private String lName;
     private String email;
-    private String username;
     private String passwd;
-    private Reservation reservations;
 }
