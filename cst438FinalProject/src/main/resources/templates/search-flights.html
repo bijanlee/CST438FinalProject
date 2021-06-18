@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Flights</title>
 <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.min.css} "/>
 <link rel="stylesheet" href="/site.css" />
 </head>
@@ -25,16 +25,16 @@
 
 <main>
      <div class="mt-5">
-      <h2 class="text-center">Flight Results</h2>
+      <h2 class="text-center">[[${city}]] Flights</h2>
      </div>
      
       <div th:each="flight : ${flights}" class="container py-4" style="max-width: 630px;">
        <div class="h-100 p-5 bg-light border rounded-3 mt-2">
          <div class="container-fluid py-5">
-           <h2 th:text="${flight.time}"></h2>
-           <h3><span th:text="${flight.sourceLocation}"></span><span> - </span><span th:text="${flight.sourceLocation}"></span></h3>
+           <h2 th:text="${flight.leaveTime}"></h2>
+           <h3><span th:text="${flight.originAirport}"></span><span> - </span><span th:text="${flight.destAirport}"></span></h3>
            <h1 th:text="${flight.price}"></h1>
-           <button class="btn btn-primary btn-lg mt-2" type="button">Book</button>
+           <button th:data-thing="${flight.flightNum}" th:onclick="|book(this.getAttribute('data-thing'))|" class="btn btn-primary btn-lg mt-2" type="button">Book</button>
          </div>
        </div>
      </div>
@@ -79,6 +79,14 @@
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/5.0.1/js/bootstrap.min.js}"></script>
+
+<script>
+   function book(flightNum) {
+      //window.location.replace("/hotels");
+      var location = "/BookFlight?id=" + flightNum;
+      window.location.replace(location);
+   }
+</script>
 
 </body>
 </html>

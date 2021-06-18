@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Flights</title>
 <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.min.css} "/>
 <link rel="stylesheet" href="/site.css" />
 </head>
@@ -25,15 +25,15 @@
 
 <main>
      <div class="mt-5">
-      <h2 class="text-center">Hotel Results</h2>
+      <h2 th:inline="text" class="text-center"><span>[[${city}]] Hotels</span></h2>
      </div>
      <div th:each="hotel : ${hotels}" class="container py-4" style="max-width: 630px;">
        <div class="h-100 p-5 bg-light border rounded-3 mt-2">
          <div class="container-fluid py-5">
            <h2 th:text="${hotel.name}"></h2>
-           <h3 th:text="${hotel.location}"></h3>
+           <h3 th:text="${hotel.address}"></h3>
            <h1 th:text="${hotel.price}"></h1>
-           <button class="btn btn-primary btn-lg mt-2" type="button">Book</button>
+           <button th:onclick="|book('${hotel.id}')|" class="btn btn-primary btn-lg mt-2" type="button">Book</button>
          </div>
        </div>
      </div>
@@ -73,9 +73,17 @@
 </main>
 
 
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery/3.2.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/5.0.1/js/bootstrap.min.js}"></script>
+
+<script>
+   function book(hotelId) {
+	   //window.location.replace("/hotels");
+	   var location = "/BookHotel?id=" + hotelId;
+	   window.location.replace(location);
+   }
+</script>
 
 </body>
 </html>
