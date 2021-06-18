@@ -10,13 +10,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import cst438finalproject.domain.Car;
 import cst438finalproject.domain.Flight;
 import cst438finalproject.domain.Hotel;
+import cst438finalproject.domain.User;
+import cst438finalproject.domain.UserRepository;
 import cst438finalproject.service.MockRequestService;
+import java.security.Principal;
 
 @Controller
 public class HomeController {
    
    @Autowired
    MockRequestService mockRequestService;
+   
+   @Autowired
+   private UserRepository repo;
+   
+  
+   private Principal principal;
 
    @GetMapping("/home")
    public String Home(Model model) {
@@ -25,6 +34,11 @@ public class HomeController {
    
    @GetMapping("/profile")
    public String Profile(Model model) {
+      
+     System.out.println(principal);
+     
+      model.addAttribute("currentUser", principal);
+      
       return "profile";
    }
    
