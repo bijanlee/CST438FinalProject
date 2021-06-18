@@ -2,49 +2,173 @@ package cst438finalproject.domain;
 
 public class Flight
 {
-   private String time;
-   private String sourceLocation;
-   private String destinationLocation;
-   private String price;
+   private String flightNum;
+   private int airlineID;
+   private String leaveTime;
+   private String leaveDate;
+   private String arriveTime;
+   private String arriveDate;
+   private int price;
+   private int numStops;
+   private int seatsAvailable;
+   private int originCity;
+   private int destCity;
+   private String originAirport;
+   private String destAirport;
+   
    
    public Flight() {}
    
-   public Flight(String time, String sourceLocation, String destinationLocation, String price) {
-      this.time = time;
-      this.sourceLocation = sourceLocation;
-      this.destinationLocation = destinationLocation;
+   public Flight(String flightNum, int airlineID, String leaveTime, String leaveDate, String arriveTime, String arriveDate,
+         int price, int numStops, int seatsAvailable, int originCity, int destCity, String originAirport,
+         String destAirport)
+   {
+      super();
+      this.flightNum = flightNum;
+      this.airlineID = airlineID;
+      this.leaveTime = leaveTime;
+      this.leaveDate = leaveDate;
+      this.arriveTime = arriveTime;
+      this.arriveDate = arriveDate;
       this.price = price;
+      this.numStops = numStops;
+      this.seatsAvailable = seatsAvailable;
+      this.originCity = originCity;
+      this.destCity = destCity;
+      this.originAirport = originAirport;
+      this.destAirport = destAirport;
    }
    
-   public String getTime() {
-      return time;
+   public String getFlightNum()
+   {
+      return flightNum;
    }
-   
-   public void setTime(String time) {
-      this.time = time;
+
+   public void setFlightNum(String flightNum)
+   {
+      this.flightNum = flightNum;
    }
-   
-   public String getSourceLocation() {
-      return sourceLocation;
+
+   public int getAirlineID()
+   {
+      return airlineID;
    }
-   
-   public void setSourceLocation(String sourceLocation) {
-      this.sourceLocation = sourceLocation;
+
+   public void setAirlineID(int airlineID)
+   {
+      this.airlineID = airlineID;
    }
-   
-   public String getDestinationLocation() {
-      return this.destinationLocation;
+
+   public String getLeaveTime()
+   {
+      return leaveTime;
    }
-   
-   public void setDestinationLocation(String destinationLocation) {
-      this.destinationLocation = destinationLocation;
+
+   public void setLeaveTime(String leaveTime)
+   {
+      this.leaveTime = leaveTime;
    }
-   
-   public String getPrice() {
+
+   public String getLeaveDate()
+   {
+      return leaveDate;
+   }
+
+   public void setLeaveDate(String leaveDate)
+   {
+      this.leaveDate = leaveDate;
+   }
+
+   public String getArriveTime()
+   {
+      return arriveTime;
+   }
+
+   public void setArriveTime(String arriveTime)
+   {
+      this.arriveTime = arriveTime;
+   }
+
+   public String getArriveDate()
+   {
+      return arriveDate;
+   }
+
+   public void setArriveDate(String arriveDate)
+   {
+      this.arriveDate = arriveDate;
+   }
+
+   public int getPrice()
+   {
       return price;
    }
-   
-   public void setPrice(String price) {
+
+   public void setPrice(int price)
+   {
       this.price = price;
    }
+
+   public int getNumStops()
+   {
+      return numStops;
+   }
+
+   public void setNumStops(int numStops)
+   {
+      this.numStops = numStops;
+   }
+
+   public int getSeatsAvailable()
+   {
+      return seatsAvailable;
+   }
+
+   public void setSeatsAvailable(int seatsAvailable)
+   {
+      this.seatsAvailable = seatsAvailable;
+   }
+
+   public int getOriginCity()
+   {
+      return originCity;
+   }
+
+   public void setOriginCity(int originCity)
+   {
+      this.originCity = originCity;
+   }
+
+   public int getDestCity()
+   {
+      return destCity;
+   }
+
+   public void setDestCity(int destCity)
+   {
+      this.destCity = destCity;
+   }
+
+   public String getOriginAirport()
+   {
+      return originAirport;
+   }
+
+   public void setOriginAirport(String originAirport)
+   {
+      this.originAirport = originAirport;
+   }
+
+   public String getDestAirport()
+   {
+      return destAirport;
+   }
+
+   public void setDestAirport(String destAirport)
+   {
+      this.destAirport = destAirport;
+   }
+
+
+   
 }

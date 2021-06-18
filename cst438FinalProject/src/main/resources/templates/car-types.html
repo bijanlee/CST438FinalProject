@@ -2,12 +2,12 @@
 <html xmlns:th="www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Home</title>
+<title>Cars</title>
 <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.min.css} "/>
 <link rel="stylesheet" href="/site.css" />
 </head>
 <body>
-   
+
 <header class="site-header sticky-top py-1">
   <nav class="container d-flex flex-column flex-md-row justify-content-between">
     <a class="py-2" href="#" aria-label="Product">
@@ -25,45 +25,32 @@
 
 <main>
      <div class="container py-4">
-	    <div class="h-100 p-5 mb-4 bg-light border rounded-3 mt-5">
-	      <div class="container-fluid py-5">
-	        <h2>Search Packages</h2>
-	        <!-- <form>
-	           <div class="row g-3">
-					  <div class="col-sm">
-					    <input type="text" class="form-control" placeholder="Leaving From" aria-label="Leaving From">
-					  </div>
-					  <div class="col-sm">
-					    <input type="text" class="form-control" placeholder="Going To" aria-label="Going To">
-					  </div>
-					  <div class="col-sm">
-					    <input type="text" class="form-control" placeholder="Departing" aria-label="Departing">
-					  </div>
-					  <div class="col-sm">
-                   <input type="text" class="form-control" placeholder="Returning" aria-label="Returning">
+       <div class="h-100 p-5 mb-4 bg-light border rounded-3 mt-5">
+         <div class="container-fluid py-5">
+           <h2>Search Cars</h2>
+<!--             <form action="/SearchHotels" method="post">
+               <div class="row g-3">
+                 <div class="col-sm">
+                   <input type="text" class="form-control" placeholder="City" aria-label="Leaving From" th:name="city">
                  </div>
-					</div>
-	        </form> -->
-	        <button id="start" class="btn btn-primary btn-lg mt-2" type="button">Start</button>
-	      </div>
-	    </div>
+               </div>
+               <input id="start" class="btn btn-primary btn-lg mt-2" type="submit" />
+           </form> -->
+           <div th:each="carType : ${carTypes}">
+               <a th:href="@{'SearchCars?carTypeId=' + ${carType.id}} + '&locationId=' + ${locationId} + '&price=' + ${carType.price}">[[${carType.name}]], [[${carType.description}]], Price: $[[${carType.price}]]</a>
+           </div>
+           
+         </div>
+       </div>
 
-	  </div>
+     </div>
 </main>
 
-  
 <script type="text/javascript" src="webjars/jquery/3.2.0/jquery.min.js"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/5.0.1/js/bootstrap.min.js}"></script>
 
-<script>
-  $(document).ready(function(){
-	  $("#start").click(function(){
-		  //var location = window.location.hostname + "/hotels";
-		  window.location.replace("/hotels");
-	  });
-  });
-</script>
-   
+
+
 </body>
 </html>
