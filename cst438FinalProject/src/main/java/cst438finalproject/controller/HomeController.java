@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import cst438finalproject.domain.Car;
 import cst438finalproject.domain.CarType;
+import cst438finalproject.domain.CustomUserDetails;
 import cst438finalproject.domain.Flight;
 import cst438finalproject.domain.Hotel;
 import cst438finalproject.domain.HotelReservation;
 import cst438finalproject.domain.Location;
+import cst438finalproject.domain.TravelPackageRepository;
+import cst438finalproject.domain.TravelPackage;
 import cst438finalproject.service.CarService;
 import cst438finalproject.service.FlightService;
 import cst438finalproject.service.HotelService;
@@ -47,6 +52,9 @@ public class HomeController {
    
    @Autowired(required=true)
    private HttpServletRequest request;
+   
+   @Autowired
+   private TravelPackageRepository travelPackageRepository;
   
    private UserRepository repo;
    
@@ -242,8 +250,21 @@ public class HomeController {
       int carId = (int) session.getAttribute("carId");
       
       HotelReservation hotelReservation = hotelService.reserveHotel(hotelId, startDate, endDate);
+      int hotelReservationId = hotelReservation.getId();
       int flightReservationId = flightService.reserveFlight(flightId);
       int carReservationId = carService.reserveCar(carId, carStartDate, carEndDate, locationId);
+      
+      CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      int id = user.getId();
+      
+      //save to package table
+      int itenary_number = 100;
+      
+      //Package _package = new Package();
+      
+      TravelPackage travelPackage = new TravelPackage(id, itenary_number, hotelId, flightId, carId, hotelReservationId, flightReservationId, carReservationId);
+      
+      travelPackageRepository.save(travelPackage);
       
       return "confirm";
    }
