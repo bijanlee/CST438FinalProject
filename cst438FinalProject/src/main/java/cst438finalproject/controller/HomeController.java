@@ -1,6 +1,9 @@
 package cst438finalproject.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +20,7 @@ import cst438finalproject.domain.Car;
 import cst438finalproject.domain.CarType;
 import cst438finalproject.domain.Flight;
 import cst438finalproject.domain.Hotel;
+import cst438finalproject.domain.HotelReservation;
 import cst438finalproject.domain.Location;
 import cst438finalproject.service.CarService;
 import cst438finalproject.service.FlightService;
@@ -86,9 +90,9 @@ public class HomeController {
       session.setAttribute("flightId", flightId);
       
       //get car locations
-      List<Location> locations = carService.getLocations();
-      model.addAttribute("locations", locations);
-      return "car-locations";
+      //List<Location> locations = carService.getLocations();
+      //model.addAttribute("locations", locations);
+      return "car-dates";
    }
    
    @PostMapping("/SearchHotels")
@@ -134,8 +138,36 @@ public class HomeController {
     * return "search-cars"; }
     */
    
+   @PostMapping("SearchCarLocations")
+   public String SearchCarLocations(@RequestParam("startDate") String startDate,
+         @RequestParam("endDate") String endDate, Model model) {
+      
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+      LocalDateTime startDateTime = LocalDateTime.parse(startDate, formatter);
+      LocalDateTime endDateTime = LocalDateTime.parse(endDate, formatter);
+      
+      //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+      //Date date = (Date)formatter.parse(startDate);
+      
+      String formattedStartDate = startDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+      String formattedEndDate = endDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+      
+      HttpSession session = request.getSession(true);
+      
+      session.setAttribute("carStartDate", formattedStartDate);
+      session.setAttribute("carEndDate", formattedEndDate);
+      
+      List<Location> locations = carService.getLocations();
+      model.addAttribute("locations", locations);
+      return "car-locations";
+      
+   }
+   
    @GetMapping("SearchCarTypes")
    public String SearchCarTypes(@RequestParam("locationId") int locationId, Model model) {
+      HttpSession session = request.getSession(true);
+      session.setAttribute("locationId", locationId);
+      
       List<CarType> carTypes = carService.getCarTypes(locationId);
       
       model.addAttribute("carTypes", carTypes);
@@ -178,6 +210,29 @@ public class HomeController {
       
       
       return "package-book";
+   }
+   
+   @GetMapping("/Confirm")
+   public String Confirm(Model model) {
+      HttpSession session = request.getSession(true);
+      
+      String startDate = (String) session.getAttribute("startDate");
+      String endDate = (String) session.getAttribute("endDate");
+      
+      String carStartDate = (String) session.getAttribute("carStartDate");
+      String carEndDate = (String) session.getAttribute("carEndDate");
+      
+      int locationId = (int) session.getAttribute("locationId");
+      
+      int hotelId = (int) session.getAttribute("hotelId");
+      String flightId = (String) session.getAttribute("flightId");
+      int carId = (int) session.getAttribute("carId");
+      
+      HotelReservation hotelReservation = hotelService.reserveHotel(hotelId, startDate, endDate);
+      int flightReservationId = flightService.reserveFlight(flightId);
+      int carReservationId = carService.reserveCar(carId, carStartDate, carEndDate, locationId);
+      
+      return "confirm";
    }
    
 }

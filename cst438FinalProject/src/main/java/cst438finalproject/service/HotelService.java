@@ -1,5 +1,7 @@
 package cst438finalproject.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,8 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import cst438finalproject.domain.Hotel;
+import cst438finalproject.domain.HotelReservation;
+import cst438finalproject.domain.HotelReservationPostModel;
 
 @Service
 public class HotelService
@@ -67,4 +71,37 @@ public class HotelService
       
       return hotels;
    }
+   
+   public HotelReservation reserveHotel (int hotelId, String startDate, String endDate) {
+      
+      /*
+       * DateTimeFormatter formatter =
+       * DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm"); LocalDateTime startDt =
+       * LocalDateTime.parse(startDate, formatter); LocalDateTime endDt =
+       * LocalDateTime.parse(endDate, formatter);
+       * 
+       * DateTimeFormatter hotelFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+       * String formattedStartDate = startDt.format(hotelFormatter); String
+       * formattedEndDate = endDt.format(hotelFormatter);
+       */
+      
+      HotelReservationPostModel hotelReservationPostModel = new HotelReservationPostModel(hotelId, "double",
+            startDate, endDate);
+      
+      ResponseEntity<JsonNode> response = restTemplate.postForEntity(
+            hotelUrl + "/reservations", hotelReservationPostModel, JsonNode.class);
+      log.info("Status code from hotel server:" + response.getStatusCodeValue());
+      
+      JsonNode node = response.getBody();
+      
+      int id = node.get("id").asInt();
+      int hotel_Id = node.get("hotelId").asInt();
+      String roomtype = node.get("roomtype").asText();
+      String startdate = node.get("startdate").asText();
+      String enddate = node.get("enddate").asText();
+      
+      HotelReservation hotelReservation = new HotelReservation(id, hotel_Id, roomtype, startdate, enddate);
+      return hotelReservation;
+   }
+   
 }

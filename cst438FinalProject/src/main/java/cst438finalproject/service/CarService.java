@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import cst438finalproject.domain.Car;
+import cst438finalproject.domain.CarReservationPostModel;
 import cst438finalproject.domain.CarType;
 import cst438finalproject.domain.Location;
 
@@ -123,6 +124,26 @@ public class CarService
       Car car = new Car(id, brand, model, color, year, description, _carTypeId, _locationId);
       
       return car;
+   }
+   
+   public int reserveCar(int carId, String startDateTime, String endDateTime, int locationId) {
+      
+      String testingDateTime = "2021-10-11 08:13";
+      String testingDateTime2= "2021-10-14 19:30";
+      
+      CarReservationPostModel carPostModel = new CarReservationPostModel(testingDateTime,
+            testingDateTime2, locationId, locationId, 0, carId);
+      
+      ResponseEntity<String> response = restTemplate.postForEntity(
+            carUrl + "/reservations/new", carPostModel, String.class);
+      log.info("Status code from car server:" + response.getStatusCodeValue());
+      
+      String body = response.getBody();
+      
+      int id = Integer.parseInt(body);
+      
+      return id;
+      //do nothing
    }
    
 }

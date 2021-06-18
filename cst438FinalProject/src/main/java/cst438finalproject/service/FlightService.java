@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import cst438finalproject.domain.Flight;
+import cst438finalproject.domain.PassengerPostModel;
 
 @Service
 public class FlightService
@@ -88,6 +89,23 @@ public class FlightService
       }
       
       return flights;
+   }
+   
+   public int reserveFlight(String flightId) {
+      
+      PassengerPostModel passengerPostModel = new PassengerPostModel("test", "name", flightId);
+      
+      ResponseEntity<String> response = restTemplate.postForEntity(
+            flightUrl + "/flights/passenger/", passengerPostModel, String.class);
+      log.info("Status code from hotel server:" + response.getStatusCodeValue());
+      
+      String body = response.getBody();
+      
+      int id = Integer.parseInt(body);
+      
+      return id;
+      
+      //do nothing
    }
    
 

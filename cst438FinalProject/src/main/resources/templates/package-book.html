@@ -41,10 +41,7 @@
                </div>
                <input id="start" class="btn btn-primary btn-lg mt-2" type="submit" />
            </form> -->
-           <div th:each="location : ${locations}">
-               <a th:href="@{'SearchCarTypes?locationId=' + ${location.id}}">[[${location.street}]], [[${location.city}]] [[${location.state}]]</a>
-           </div>
-           
+           <button id="confirm" class="btn btn-primary btn-lg mt-2" type="button">Confirm</button>
          </div>
        </div>
 
@@ -55,7 +52,14 @@
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/5.0.1/js/bootstrap.min.js}"></script>
 
-
+<script>
+  $(document).ready(function(){
+     $("#confirm").click(function(){
+        //var location = window.location.hostname + "/hotels";
+        window.location.replace("/Confirm");
+     });
+  });
+</script>
 
 </body>
 </html>
