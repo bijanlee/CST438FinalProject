@@ -25,7 +25,10 @@ import cst438finalproject.domain.Location;
 import cst438finalproject.service.CarService;
 import cst438finalproject.service.FlightService;
 import cst438finalproject.service.HotelService;
+import cst438finalproject.domain.User;
+import cst438finalproject.domain.UserRepository;
 import cst438finalproject.service.MockRequestService;
+import java.security.Principal;
 
 @Controller
 public class HomeController {
@@ -44,6 +47,11 @@ public class HomeController {
    
    @Autowired(required=true)
    private HttpServletRequest request;
+  
+   private UserRepository repo;
+   
+  
+   private Principal principal;
 
    @GetMapping("/home")
    public String Home(Model model) {
@@ -52,6 +60,11 @@ public class HomeController {
    
    @GetMapping("/profile")
    public String Profile(Model model) {
+      
+     System.out.println(principal);
+     
+      model.addAttribute("currentUser", principal);
+      
       return "profile";
    }
    
