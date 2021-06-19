@@ -1,11 +1,17 @@
 package cst438finalproject.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,13 +27,16 @@ import cst438finalproject.domain.Location;
 public class CarService
 {
    private static final Logger log = LoggerFactory.getLogger(HotelService.class);
+   
+   @Autowired
    private RestTemplate restTemplate;
-   private String carUrl;
+   
+   public String carUrl;
    
    public CarService(
          @Value("${car.url}") final String carUrl)
    {
-      this.restTemplate = new RestTemplate();
+      //this.restTemplate = new RestTemplate();
       this.carUrl = carUrl;
    }
    
@@ -143,7 +152,25 @@ public class CarService
       int id = Integer.parseInt(body);
       
       return id;
-      //do nothing
+   }
+   
+   public void cancelCarReservation(int carReservationId) {
+      //HashMap<String, String> map = new HashMap<>();
+      //String idString = String.valueOf(carReservationId);
+      //map.put("id", idString);
+      
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.APPLICATION_JSON);
+      
+      String url = carUrl + "/reservations/{id}";
+      
+      HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+      Integer id = carReservationId;
+      ResponseEntity<Void> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE,
+            httpEntity, Void.class, id);
+      
+      System.out.println("Status Code: " + responseEntity.getStatusCodeValue());
+    
    }
    
 }

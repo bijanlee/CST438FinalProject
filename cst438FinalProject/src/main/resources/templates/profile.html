@@ -28,36 +28,26 @@
           <div class="container-fluid py-5">
             <h2>Search Packages</h2>
             
-         <form action="/logout" method="GET">
-            <p>
-                <span th:if="${#request}"> Welcome <b> [[${#request.userPrincipal.principal.fullName}]] </b></span>
-            </p>
-            <input type="submit" value="Sign Out" /> 
-        </form> 
+	         <form action="/logout" method="GET">
+	            <p>
+	                <span th:if="${#request}"> Welcome <b> [[${#request.userPrincipal.principal.fullName}]] </b></span>
+	            </p>
+	            <input type="submit" value="Sign Out" /> 
+	        </form> 
                 
-<!--              <div th:if="${#request}"> Welcome <span th:text="${#request.userPrincipal.principal.fullName}"></span> 
-            </div> <br />  -->   
-  
-<!--             <span th:unless="${#request.userPrincipal.principal.fullName}">
-			     Please Login <a href="/login">here</a> to view your bookings.
-			</span>  -->
-            <form>
-               <div class="row g-3">
-                      <div class="col-sm">
-                        <input type="text" class="form-control" placeholder="Leaving From" aria-label="Leaving From">
-                      </div>
-                      <div class="col-sm">
-                        <input type="text" class="form-control" placeholder="Going To" aria-label="Going To">
-                      </div>
-                      <div class="col-sm">
-                        <input type="text" class="form-control" placeholder="Departing" aria-label="Departing">
-                      </div>
-                      <div class="col-sm">
-                   <input type="text" class="form-control" placeholder="Returning" aria-label="Returning">
-                 </div>
-                    </div>
-            </form>
-            <button class="btn btn-primary btn-lg mt-2" type="button">Search</button>
+            <div th:each="viewModel : ${viewModels}">
+               <h1>Hotel</h1>
+               <p>[[${viewModel.hotel.name}]]</p>
+               
+               <h1>Flight</h1>
+               <p>[[${viewModel.flight.originAirport}]] - [[${viewModel.flight.destAirport}]]</p>
+               
+               <h1>Car</h1>
+               <p>[[${viewModel.car.brand}]], [[${viewModel.car.model}]]</p>
+               <button th:onclick="|cancel('${viewModel.packageId}')|" class="btn btn-primary btn-lg mt-2" type="button">Cancel</button>
+            </div>
+            
+            <button id="start" class="btn btn-primary btn-lg mt-2" type="button">Search</button>
           </div>
         </div>
 
@@ -65,9 +55,26 @@
 </main>
 
    
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery/3.2.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/5.0.1/js/bootstrap.min.js}"></script>
+
+<script>
+   function cancel(packageId) {
+      //window.location.replace("/hotels");
+      var location = "/Cancel?id=" + packageId;
+      window.location.replace(location);
+   }
+</script>
+
+<script>
+  $(document).ready(function(){
+     $("#start").click(function(){
+        //var location = window.location.hostname + "/hotels";
+        window.location.replace("/hotels");
+     });
+  });
+</script>
    
 </body>
 </html>

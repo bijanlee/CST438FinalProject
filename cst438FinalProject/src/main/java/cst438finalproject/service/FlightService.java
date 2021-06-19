@@ -5,7 +5,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,13 +24,16 @@ import cst438finalproject.domain.PassengerPostModel;
 public class FlightService
 {
    private static final Logger log = LoggerFactory.getLogger(FlightService.class);
+   
+   @Autowired
    private RestTemplate restTemplate;
-   private String flightUrl;
+   
+   public String flightUrl;
    
    public FlightService(
          @Value("${flight.url}") final String flightUrl)
    {
-      this.restTemplate = new RestTemplate();
+      //this.restTemplate = new RestTemplate();
       this.flightUrl = flightUrl;
    }
    
@@ -104,9 +112,22 @@ public class FlightService
       int id = Integer.parseInt(body);
       
       return id;
-      
-      //do nothing
    }
    
+   public void cancelFlightReservation(int flightReservationId) {
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.APPLICATION_JSON);
+      
+      String url = flightUrl + "/flights/passenger/{id}";
+      
+      HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+      Integer id = flightReservationId;
+      
+      ResponseEntity<Void> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE,
+            httpEntity, Void.class, id);
+      
+      System.out.println("Status Code: " + responseEntity.getStatusCodeValue());
+      
+   }
 
 }

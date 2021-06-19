@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name="packages")
 @Table(name="packages")
 public class TravelPackage {
     @Id
@@ -118,4 +118,18 @@ public class TravelPackage {
       this.itenary_number = itenary_number;
    }
 
+
+   public int getPackage_id()
+   {
+      return package_id;
+   }
+
+
+   public void setPackage_id(int package_id)
+   {
+      this.package_id = package_id;
+   }
+
+   
+   
 }
