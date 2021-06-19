@@ -7,7 +7,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,14 +28,22 @@ import cst438finalproject.domain.HotelReservationPostModel;
 public class HotelService
 {
    private static final Logger log = LoggerFactory.getLogger(HotelService.class);
+   
+   @Autowired
    private RestTemplate restTemplate;
-   private String hotelUrl;
+   
+   public String hotelUrl;
    
    public HotelService(
          @Value("${hotel.url}") final String hotelUrl)
    {
-      this.restTemplate = new RestTemplate();
+      //this.restTemplate = new RestTemplate();
       this.hotelUrl = hotelUrl;
+   }
+   
+   @Bean
+   public RestTemplate restTemplate() {
+      return new RestTemplate();
    }
    
    public Hotel getHotel(int id) {
@@ -102,6 +116,22 @@ public class HotelService
       
       HotelReservation hotelReservation = new HotelReservation(id, hotel_Id, roomtype, startdate, enddate);
       return hotelReservation;
+   }
+   
+   public void cancelHotelReservation(int hotelReservation) {
+      
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.APPLICATION_JSON);
+      
+      String url = hotelUrl + "/reservations/{id}";
+      HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+      Integer id = hotelReservation;
+      
+      ResponseEntity<Void> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE,
+            httpEntity, Void.class, id);
+      
+      System.out.println("Status Code: " + responseEntity.getStatusCodeValue());
+      
    }
    
 }

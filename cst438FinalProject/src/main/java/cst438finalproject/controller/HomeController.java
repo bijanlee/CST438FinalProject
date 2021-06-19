@@ -3,6 +3,7 @@ package cst438finalproject.controller;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import cst438finalproject.domain.Hotel;
 import cst438finalproject.domain.HotelReservation;
 import cst438finalproject.domain.Location;
 import cst438finalproject.domain.TravelPackageRepository;
+import cst438finalproject.domain.TravelPackageViewModel;
 import cst438finalproject.domain.TravelPackage;
 import cst438finalproject.service.CarService;
 import cst438finalproject.service.FlightService;
@@ -69,8 +71,28 @@ public class HomeController {
    @GetMapping("/profile")
    public String Profile(Model model) {
       
-     System.out.println(principal);
+     //System.out.println(principal);
+      
+      CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      int id = user.getId();
      
+      List<TravelPackage> travelPackages = travelPackageRepository.findAllTravelPackagesByUserId(id);
+      
+      //model.addAttribute("packages", travelPackages);
+      
+      List<TravelPackageViewModel> viewModels = new ArrayList<TravelPackageViewModel>();
+      
+      for (TravelPackage tp : travelPackages) {
+         Hotel hotel = hotelService.getHotel(tp.getHotelId());
+         Flight flight = flightService.getFlight(tp.getFlightId());
+         Car car = carService.getCar(tp.getCarId());
+         int packageId = tp.getPackage_id();
+         TravelPackageViewModel viewModel = new TravelPackageViewModel(hotel, flight, car, packageId);
+         viewModels.add(viewModel);
+      }
+      
+      model.addAttribute("viewModels", viewModels);
+      
       model.addAttribute("currentUser", principal);
       
       return "profile";
@@ -149,7 +171,12 @@ public class HomeController {
       HttpSession session = request.getSession(true);
       session.setAttribute("hotelId", hotelId);
       
-      return "flights";
+      List<Flight> flights = flightService.getFlights();
+      model.addAttribute("flights", flights);
+      
+      return "search-flights";
+      
+      //return "flights";
    }
    
    /*
@@ -267,6 +294,25 @@ public class HomeController {
       travelPackageRepository.save(travelPackage);
       
       return "confirm";
+   }
+   
+   @GetMapping("/Cancel")
+   public String Cancel(@RequestParam("id") int packageId, Model model) {
+      
+      List<TravelPackage> travelPackages = travelPackageRepository.findByPackageId(packageId);
+      TravelPackage travelPackage = travelPackages.get(0);
+      
+      int hotelReservationId = travelPackage.getHotelReservationId();
+      int flightReservationId = travelPackage.getFlightReservationId();
+      int carReservationId = travelPackage.getCarReservationId();
+      
+      travelPackageRepository.deletePackageById(packageId);
+      
+      hotelService.cancelHotelReservation(hotelReservationId);
+      flightService.cancelFlightReservation(flightReservationId);
+      carService.cancelCarReservation(carReservationId);
+      
+      return "cancel";
    }
    
 }
