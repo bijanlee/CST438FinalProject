@@ -1,5 +1,6 @@
 # CST438FinalProject
 
+Link to live site [here](https://damp-lake-38180.herokuapp.com/)
 ## Package Bookings Team
 - Bijan Pourazari
 - Christian Salas
