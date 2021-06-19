@@ -306,11 +306,11 @@ public class HomeController {
       int flightReservationId = travelPackage.getFlightReservationId();
       int carReservationId = travelPackage.getCarReservationId();
       
+      travelPackageRepository.deletePackageById(packageId);
+      
       hotelService.cancelHotelReservation(hotelReservationId);
       flightService.cancelFlightReservation(flightReservationId);
       carService.cancelCarReservation(carReservationId);
-      
-      travelPackageRepository.deletePackageById(packageId);
       
       return "cancel";
    }
